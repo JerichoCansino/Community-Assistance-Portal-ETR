@@ -1,3 +1,8 @@
+<?php
+// Start the session to check login status
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +27,6 @@
 </head>
 
 <body>
-    <!-- Navigation Bar (Login and Sign Up removed) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -34,6 +38,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <?php if (!isset($_SESSION['user_id'])): ?>
+                        <!-- <li class="nav-item">
+                            <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
+                        </li> -->
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <li class="nav-item">
+                        <a class="btn btn-danger text-white" href="logout.php">Logout</a>
+                         </li>
+                        <?php endif; ?>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light text-white ms-2" href="profile_management/registration.php">Sign Up</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="btn btn-danger text-white" href="logout.php">Logout</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -50,8 +71,11 @@
 
             <!-- Login and Sign Up Buttons (moved here) -->
             <div class="mt-4">
-                <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
-                <a class="btn btn-outline-light text-white ms-2" href="profile_management/registration.php">Sign Up</a>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <!-- Show Login and Sign Up buttons if the user is not logged in -->
+                    <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
+                    <a class="btn btn-outline-light text-white ms-2" href="profile_management/registration.php">Sign Up</a>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -101,7 +125,7 @@
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-hand-thumbs-up" style="color: #6f42c1;"></i> <!-- Added Icon -->
+                            <i class="bi bi-hand-thumbs-up" style="color: #6f42c1;"></i>
                             <h5 class="card-title mt-3">Help Requests and Offers</h5>
                             <p class="card-text">Connect with others for help or to offer assistance.</p>
                             <a href="help_request_offers.php" class="btn btn-outline-secondary" style="color: #6f42c1; border-color: #6f42c1;">Find Help</a>
@@ -133,7 +157,6 @@
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-body">
-                            <!-- Green Icon -->
                             <i class="bi bi-speedometer2 display-4 text-success"></i>
                             <h5 class="card-title mt-3">Fast Performance</h5>
                             <p class="card-text">Experience lightning-fast operations with our optimized platform.</p>
@@ -143,7 +166,6 @@
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-body">
-                            <!-- Green Icon -->
                             <i class="bi bi-shield-lock display-4 text-success"></i>
                             <h5 class="card-title mt-3">Secure</h5>
                             <p class="card-text">Your data is safe with us, thanks to our advanced security measures.</p>
@@ -153,7 +175,6 @@
                 <div class="col-md-4">
                     <div class="card border-0">
                         <div class="card-body">
-                            <!-- Green Icon -->
                             <i class="bi bi-people display-4 text-success"></i>
                             <h5 class="card-title mt-3">User-Friendly</h5>
                             <p class="card-text">Our platform is designed with simplicity and ease of use in mind.</p>
