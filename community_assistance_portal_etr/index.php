@@ -50,11 +50,6 @@ session_start();
                         <li class="nav-item">
                             <a class="btn btn-danger text-white ms-2" href="logout.php">Logout</a>
                         </li>
-                    <?php else: ?>
-                        <!-- If not logged in, show login link -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.php">Login</a>
-                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
