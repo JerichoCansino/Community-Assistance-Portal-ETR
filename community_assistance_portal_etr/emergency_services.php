@@ -56,7 +56,7 @@ session_start();
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Police</td>
+                        <td>Police Station</td>
                         <td><a href="tel:09702316418" class="text-danger">09702316418</a></td>
                         <td>For crime and law enforcement emergencies.</td>
                         <td>24/7</td>
@@ -80,14 +80,14 @@ session_start();
                         <td>24/7</td>
                     </tr>
                     <tr>
-                        <td>Electric Company</td>
+                        <td>Decorp Coorporation</td>
                         <td><a href="tel:5554040" class="text-danger">555-4040</a></td>
                         <td>Report power outages and electrical hazards.</td>
                         <td>8:00 AM - 5:00 PM</td>
                     </tr>
                     <tr>
-                        <td>Water Company</td>
-                        <td><a href="tel:5555050" class="text-danger">555-5050</a></td>
+                        <td>Balibago Water Station</td>
+                        <td><a href="tel:365-8155" class="text-danger">8365-8155</a></td>
                         <td>Report water leaks or supply issues.</td>
                         <td>8:00 AM - 5:00 PM</td>
                     </tr>
