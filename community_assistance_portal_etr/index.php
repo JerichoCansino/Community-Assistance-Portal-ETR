@@ -61,7 +61,7 @@ session_start();
         <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark" style="opacity: 0.7;"></div>
         <div class="container text-white position-relative">
             <h1 class="display-4 font-weight-bold">Welcome to Sta. Barbara Community Assistance Portal</h1>
-            <p class="lead font-weight-bold">Your gateway to managing everything efficiently and easily!</p>
+            <p class="lead font-weight-bold">Making it easier for you to access help and stay involved in your community!</p>
             <div class="mt-4">
                 <?php if (!isset($_SESSION['user_id'])): ?>
                     <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
@@ -149,8 +149,8 @@ session_start();
                     <div class="card border-0">
                         <div class="card-body">
                             <i class="bi bi-speedometer2 display-4 text-success"></i>
-                            <h5 class="card-title mt-3">Fast Performance</h5>
-                            <p class="card-text">Experience lightning-fast operations with our optimized platform.</p>
+                            <h5 class="card-title mt-3">Quick and Reliable</h5>
+                            <p class="card-text">We make sure you can get things done fast, without any delays.</p>
                         </div>
                     </div>
                 </div>
@@ -158,8 +158,8 @@ session_start();
                     <div class="card border-0">
                         <div class="card-body">
                             <i class="bi bi-shield-lock display-4 text-success"></i>
-                            <h5 class="card-title mt-3">Secure</h5>
-                            <p class="card-text">Your data is safe with us, thanks to our advanced security measures.</p>
+                            <h5 class="card-title mt-3">Safe and Secure</h5>
+                            <p class="card-text">Your safety matters to us, and we work hard to protect your data.</p>
                         </div>
                     </div>
                 </div>
@@ -167,8 +167,8 @@ session_start();
                     <div class="card border-0">
                         <div class="card-body">
                             <i class="bi bi-people display-4 text-success"></i>
-                            <h5 class="card-title mt-3">User-Friendly</h5>
-                            <p class="card-text">Our platform is designed with simplicity and ease of use in mind.</p>
+                            <h5 class="card-title mt-3">Simple to Use</h5>
+                            <p class="card-text">We’ve kept things easy to understand so you can use it without any hassle.</p>
                         </div>
                     </div>
                 </div>

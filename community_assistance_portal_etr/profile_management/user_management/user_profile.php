@@ -48,7 +48,8 @@ $stmt->close();
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.php">
+            <!-- Logo and Portal Name -->
+            <a class="navbar-brand" href="../../index.php">
                 <img src="../../assets/sblogo.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 Sta. Barbara Community Assistance Portal
             </a>
@@ -110,13 +111,11 @@ $stmt->close();
         <!-- Edit Profile Button -->
         <div class="row mt-4">
             <div class="col-md-4 d-flex justify-content-center">
-                <a href="profile_management/user_management/edit_profile.php" class="btn btn-success w-50">
+                <a href="edit_profile.php" class="btn btn-success w-50">
                     <i class="bi bi-pencil-square me-2"></i> Edit Profile
                 </a>
             </div>
         </div>
-
-
 
     </div>
 
