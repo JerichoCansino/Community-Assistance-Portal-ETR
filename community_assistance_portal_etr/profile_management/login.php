@@ -103,14 +103,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                        <label class="form-check-label text-success" for="rememberMe">Remember me</label>
                     </div>
-                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                    <a href="#" class="text-decoration-none text-success">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn btn-success w-100 mt-4">Login</button>
             </form>
             <div class="text-center mt-3">
-                <small>Don't have an account? <a href="registration.php" class="text-decoration-none">Sign up</a></small>
+                <small>Don't have an account? <a href="registration.php" class="text-decoration-none text-success">Sign up</a></small>
             </div>
         </div>
     </section>
