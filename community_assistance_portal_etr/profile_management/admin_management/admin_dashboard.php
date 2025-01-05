@@ -1,3 +1,12 @@
+<?php
+// Start the session
+session_start();
+
+// Assuming admin name and profile picture are already set in session (this part can be modified later when you have the backend data)
+$admin_name = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : "Admin";
+$profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'default.jpg';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,108 +18,125 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        main {
-            flex: 1;
-        }
-
-        .card {
-            border-radius: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .card i {
-            font-size: 3rem;
-        }
-
-        footer {
-            background: #222;
-        }
-    </style>
 </head>
 
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="assets/sblogo.jpg" alt="Logo" width="60" height="60" class="me-2">
-                <span class="fw-bold">Sta. Barbara Community Assistance Portal</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">No new notifications</a></li>
-                        </ul>
-                    </li>
-                </ul>
+<body class="bg-light">
+    <!-- Sidebar + Main Content Container -->
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-success text-white p-3 d-flex flex-column" style="min-height: 100vh; width: 250px;">
+            <!-- Logo -->
+            <div class="d-flex justify-content-center mb-4">
+                <img src="assets/sblogo.jpg" alt="Logo" width="60" height="60" class="rounded-circle">
             </div>
-        </div>
-    </nav>
+            <!-- Manage System Title -->
+            <div class="text-center mb-4">
+                <h5 class="text-white">System Management</h5>
+            </div>
+            <!-- Sidebar Menu -->
+            <ul class="nav flex-column mb-auto">
+                <li class="nav-item mb-3 border-bottom border-light">
+                    <a class="nav-link text-white small" href="community_events.php">
+                        <i class="bi bi-calendar-event me-2"></i>Community Events
+                    </a>
+                </li>
+                <li class="nav-item mb-3 border-bottom border-light">
+                    <a class="nav-link text-white small" href="community_resources.php">
+                        <i class="bi bi-briefcase me-2"></i>Community Resources
+                    </a>
+                </li>
+                <li class="nav-item mb-3 border-bottom border-light">
+                    <a class="nav-link text-white small" href="help_requests_offers.php">
+                        <i class="bi bi-hand-thumbs-up me-2"></i>Help Requests and Offers
+                    </a>
+                </li>
+                <li class="nav-item mb-3 border-bottom border-light">
+                    <a class="nav-link text-white small" href="feedbacks_ratings.php">
+                        <i class="bi bi-star me-2"></i>Feedbacks and Ratings
+                    </a>
+                </li>
+            </ul>
+            <!-- Logout Button at the Bottom -->
+            <div class="mt-auto">
+                <a href="logout.php" class="btn btn-light w-100 text-success fw-bold">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
+            </div>
+        </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Dashboard Section -->
-        <section class="py-5 bg-light">
-            <div class="container text-center">
-                <h2 class="mb-4 fw-bold">Dashboard</h2>
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <!-- Total Users -->
-                    <div class="col">
-                        <a href="manage_users.php" class="text-decoration-none">
-                            <div class="card shadow-sm border-0 text-center">
-                                <div class="card-body">
-                                    <i class="bi bi-people-fill text-primary"></i>
-                                    <h3 class="mt-3 text-primary fw-bold">1,234</h3>
-                                    <p class="m-0 text-muted">Total Users</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <!-- Total Services Offered -->
-                    <div class="col">
-                        <a href="manage_services.php" class="text-decoration-none">
-                            <div class="card shadow-sm border-0 text-center">
-                                <div class="card-body">
-                                    <i class="bi bi-briefcase text-warning"></i>
-                                    <h3 class="mt-3 text-warning fw-bold">15</h3>
-                                    <p class="m-0 text-muted">Services Offered</p>
-                                </div>
-                            </div>
-                        </a>
+        <!-- Main Content -->
+        <div class="container-fluid">
+            <!-- Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand text-dark fw-bold" href="#">Sta. Barbara Community Assistance Portal</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <!-- Display Admin Name without dropdown -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#">
+                                    <img src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Pic" class="rounded-circle" width="30" height="30" style="margin-right: 8px;">
+                                    <!-- Display Admin Name -->
+                                    <span><?php echo htmlspecialchars($admin_name); ?></span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </nav>
 
-    <!-- Footer -->
-    <footer class="text-white text-center py-4">
-        <p class="mb-1">&copy; 2024 Sta. Barbara Community Assistance Portal. All rights reserved.</p>
-        <p>Contact us: <a href="mailto:info@sbcommunityportal.com" class="text-light">info@sbcommunityportal.com</a></p>
-    </footer>
+            <!-- Main Dashboard Content -->
+            <main class="py-5">
+                <div class="container">
+                    <h2 class="text-center text-success">Admin Dashboard</h2>
+
+                    <!-- Dashboard Stats -->
+                    <div class="row mt-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="card border-success h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-person-fill fs-2 text-success mb-3"></i>
+                                    <h5 class="card-title text-success">Users</h5>
+                                    <p class="card-text">0</p> <!-- Placeholder count -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card border-success h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-briefcase-fill fs-2 text-success mb-3"></i>
+                                    <h5 class="card-title text-success">Services Offered</h5>
+                                    <p class="card-text">0</p> <!-- Placeholder count -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card border-success h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-exclamation-triangle-fill fs-2 text-success mb-3"></i>
+                                    <h5 class="card-title text-success">Help Requests Pending</h5>
+                                    <p class="card-text">0</p> <!-- Placeholder count -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card border-success h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-calendar-check-fill fs-2 text-success mb-3"></i>
+                                    <h5 class="card-title text-success">Community Event Suggestions</h5>
+                                    <p class="card-text">0</p> <!-- Placeholder count -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
