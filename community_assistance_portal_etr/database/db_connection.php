@@ -1,12 +1,12 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'community_portal'; 
-$username = 'root'; 
-$password = ''; 
+$host = 'localhost';
+$dbname = 'community_portal';
+$username = 'root';
+$password = '';
 
 try {
     $conn = new mysqli($host, $username, $password, $dbname);
-    
+
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -14,4 +14,3 @@ try {
     echo "Connection failed: " . $e->getMessage();
     exit();
 }
-?>

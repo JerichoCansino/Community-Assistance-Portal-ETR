@@ -14,45 +14,46 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        .card-body i {
-            font-size: 2.25rem;
-        }
-
-        .card {
-            max-width: 300px;
-            margin: 0 auto;
-        }
-    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="assets/sblogo.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+            <a class="navbar-brand" href="index.php">
+                <!-- Display the Sta. Barbara Logo -->
+                <img src="assets/sblogo.jpg" alt="Sta. Barbara Logo" width="25" height="25" class="d-inline-block align-text-top">
                 Sta. Barbara Community Assistance Portal
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <?php if (!isset($_SESSION['user_id'])): ?>
-                        <!-- <li class="nav-item">
-                            <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
-                        </li> -->
-                        <?php if (isset($_SESSION['user_id'])): ?>
-                            <li class="nav-item">
-                        <a class="btn btn-danger text-white" href="logout.php">Logout</a>
-                         </li>
-                        <?php endif; ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <!-- Profile Picture and My Profile Link -->
+                        <li class="nav-item d-flex align-items-center">
+                            <!-- Display user profile picture if available, otherwise use default.jpg -->
+                            <?php
+                            $profilePicturePath = 'uploads/' . (isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'default.jpg');
+                            // Ensure the profile picture exists, fallback to default if not found
+                            $profilePicturePath = file_exists($profilePicturePath) ? $profilePicturePath : 'uploads/default.jpg';
+                            ?>
+                            <img src="<?php echo $profilePicturePath; ?>" alt="User Profile Picture" width="30" height="30" class="rounded-circle me-2">
+                            <a class="nav-link" href="profile_management/user_management/user_profile.php">
+                                My Profile
+                                <?php if (isset($_SESSION['fullname'])): ?>
+                                    <span class="ms-2">(<?php echo htmlspecialchars($_SESSION['fullname']); ?>)</span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
                         <li class="nav-item">
-                            <a class="btn btn-outline-light text-white ms-2" href="profile_management/registration.php">Sign Up</a>
+                            <a class="btn btn-danger text-white ms-2" href="logout.php">Logout</a>
                         </li>
                     <?php else: ?>
+                        <!-- If not logged in, show login link -->
                         <li class="nav-item">
-                            <a class="btn btn-danger text-white" href="logout.php">Logout</a>
+                            <a class="nav-link" href="login.php">Login</a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -62,23 +63,19 @@ session_start();
 
     <!-- Hero Section with Banner Image -->
     <section class="hero text-center py-5" style="position: relative; background-image: url('assets/banner.jpg'); background-size: cover; background-position: center;">
-        <!-- Darker Overlay with low opacity -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7);"></div>
-
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark" style="opacity: 0.7;"></div>
         <div class="container text-white position-relative">
             <h1 class="display-4 font-weight-bold">Welcome to Sta. Barbara Community Assistance Portal</h1>
             <p class="lead font-weight-bold">Your gateway to managing everything efficiently and easily!</p>
-
-            <!-- Login and Sign Up Buttons (moved here) -->
             <div class="mt-4">
                 <?php if (!isset($_SESSION['user_id'])): ?>
-                    <!-- Show Login and Sign Up buttons if the user is not logged in -->
                     <a class="btn btn-success text-white" href="profile_management/login.php">Login</a>
                     <a class="btn btn-outline-light text-white ms-2" href="profile_management/registration.php">Sign Up</a>
                 <?php endif; ?>
             </div>
         </div>
     </section>
+
 
     <!-- How Can We Help? Section -->
     <section class="py-5 bg-light">
@@ -89,7 +86,7 @@ session_start();
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-calendar-event text-success"></i>
+                            <i class="bi bi-calendar-event text-success display-4"></i>
                             <h5 class="card-title mt-3">Community Events</h5>
                             <p class="card-text">Stay updated with community events and activities.</p>
                             <a href="community_events.php" class="btn btn-outline-success">Explore</a>
@@ -101,7 +98,7 @@ session_start();
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-house-door text-primary"></i>
+                            <i class="bi bi-house-door text-primary display-4"></i>
                             <h5 class="card-title mt-3">Community Resources</h5>
                             <p class="card-text">Access resources for your community needs.</p>
                             <a href="community_resources.php" class="btn btn-outline-primary">View Resources</a>
@@ -109,11 +106,11 @@ session_start();
                     </div>
                 </div>
 
-                <!-- Quick Access to Emergency Services Tile -->
+                <!-- Emergency Services Tile -->
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-exclamation-circle text-danger"></i>
+                            <i class="bi bi-exclamation-circle text-danger display-4"></i>
                             <h5 class="card-title mt-3">Emergency Services</h5>
                             <p class="card-text">Get quick access to essential emergency contacts.</p>
                             <a href="emergency_services.php" class="btn btn-outline-danger">Access Now</a>
@@ -125,20 +122,19 @@ session_start();
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-hand-thumbs-up" style="color: #6f42c1;"></i>
+                            <i class="bi bi-hand-thumbs-up text-purple display-4"></i>
                             <h5 class="card-title mt-3">Help Requests and Offers</h5>
                             <p class="card-text">Connect with others for help or to offer assistance.</p>
-                            <a href="help_request_offers.php" class="btn btn-outline-secondary" style="color: #6f42c1; border-color: #6f42c1;">Find Help</a>
+                            <a href="help_request_offers.php" class="btn btn-outline-secondary text-purple">Find Help</a>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- Feedbacks and Ratings Tile -->
+                <!-- Feedback and Ratings Tile -->
                 <div class="col">
                     <div class="card h-100 text-center border-0 shadow-sm">
                         <div class="card-body">
-                            <i class="bi bi-star text-warning"></i>
+                            <i class="bi bi-star text-warning display-4"></i>
                             <h5 class="card-title mt-3">Feedbacks and Ratings</h5>
                             <p class="card-text">Share and view feedback about services and events.</p>
                             <a href="feedbacks_ratings.php" class="btn btn-outline-warning">Give Feedback</a>
