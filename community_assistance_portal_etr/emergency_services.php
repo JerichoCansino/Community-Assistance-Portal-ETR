@@ -57,25 +57,25 @@ session_start();
                 <tbody>
                     <tr>
                         <td>Police</td>
-                        <td><a href="tel:911" class="text-danger">911</a></td>
+                        <td><a href="tel:09702316418" class="text-danger">09702316418</a></td>
                         <td>For crime and law enforcement emergencies.</td>
                         <td>24/7</td>
                     </tr>
                     <tr>
                         <td>Fire Department</td>
-                        <td><a href="tel:5551010" class="text-danger">555-1010</a></td>
+                        <td><a href="tel: (033)335-0834" class="text-danger"> (033)335-0834</a></td>
                         <td>Report fires and hazardous incidents.</td>
                         <td>24/7</td>
                     </tr>
                     <tr>
                         <td>Ambulance</td>
-                        <td><a href="tel:5552020" class="text-danger">555-2020</a></td>
+                        <td><a href="tel:20-3056" class="text-danger">320-3056</a></td>
                         <td>For medical emergencies and accidents.</td>
                         <td>24/7</td>
                     </tr>
                     <tr>
                         <td>Disaster Response</td>
-                        <td><a href="tel:5553030" class="text-danger">555-3030</a></td>
+                        <td><a href="tel:09309584095" class="text-danger"> 09309584095</a></td>
                         <td>For flood, earthquake, and disaster response assistance.</td>
                         <td>24/7</td>
                     </tr>
