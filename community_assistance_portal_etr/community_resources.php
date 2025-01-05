@@ -1,6 +1,8 @@
 <?php
-// community_resources.php
+include('database/db_connection.php');
 session_start();
+$sql = "SELECT * FROM resources";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,31 +47,24 @@ session_start();
 
         <!-- Community Resources List -->
         <div class="list-group">
-            <!-- Resource 1 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Food Assistance Program</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Community Center</p>
-                <p class="mb-2 text-muted"><i class="bi bi-telephone"></i> Contact: (123) 456-7890</p>
-                <p class="mb-3">Provides food assistance to families in need every first Wednesday of the month.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">Learn More</a>
-            </div>
-            <!-- Resource 2 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Mental Health Support</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Health Clinic</p>
-                <p class="mb-2 text-muted"><i class="bi bi-telephone"></i> Contact: (987) 654-3210</p>
-                <p class="mb-3">Free counseling and mental health support services available to all residents.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">Learn More</a>
-            </div>
-            <!-- Resource 3 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Senior Citizens Assistance</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Senior's Hall</p>
-                <p class="mb-2 text-muted"><i class="bi bi-telephone"></i> Contact: (555) 123-4567</p>
-                <p class="mb-3">Offering programs for senior citizens, including health check-ups and recreational activities.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">Learn More</a>
-            </div>
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="list-group-item list-group-item-action mb-3 shadow-sm">
+                        <h5 class="mb-2 text-dark"><?= htmlspecialchars($row['title']); ?></h5>
+                        <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: <?= htmlspecialchars($row['location']); ?></p>
+                        <p class="mb-2 text-muted"><i class="bi bi-telephone"></i> Contact: <?= htmlspecialchars($row['contact']); ?></p>
+                        <p class="mb-3"><?= htmlspecialchars($row['description']); ?></p>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p class="text-center text-muted">No resources available at the moment.</p>
+            <?php endif; ?>
         </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
         <!-- Additional Info -->
         <div class="mt-4 text-center">

@@ -1,6 +1,8 @@
 <?php
-// events_listing.php
+include('database/db_connection.php');
 session_start();
+$sql = "SELECT * FROM events ORDER BY date ASC";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,67 +42,63 @@ session_start();
 
     <!-- Main Content -->
     <div class="container my-5">
-        <h1 class="text-center text-primary mb-4">Upcoming Community Events</h1>
-        <p class="text-center text-muted mb-5">Stay updated on the latest events happening in our community.</p>
+    <h1 class="text-center text-primary mb-4">Upcoming Community Events</h1>
+    <p class="text-center text-muted mb-5">Stay updated on the latest events happening in our community.</p>
 
-        <!-- Events List -->
-        <div class="list-group">
-            <!-- Event 1 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Tree Planting Activity</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-calendar-date"></i> Date: December 20, 2024</p>
-                <p class="mb-2 text-muted"><i class="bi bi-clock"></i> Time: 8:00 AM - 12:00 PM</p>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Municipal Park</p>
-                <p class="mb-3">Join us in making the environment greener by planting trees in our community.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">RSVP Now</a>
-            </div>
-            <!-- Event 2 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Health and Wellness Fair</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-calendar-date"></i> Date: January 10, 2025</p>
-                <p class="mb-2 text-muted"><i class="bi bi-clock"></i> Time: 9:00 AM - 3:00 PM</p>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Community Hall</p>
-                <p class="mb-3">Free medical check-ups and wellness workshops for residents.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">RSVP Now</a>
-            </div>
-            <!-- Event 3 -->
-            <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                <h5 class="mb-2 text-dark">Disaster Preparedness Workshop</h5>
-                <p class="mb-2 text-muted"><i class="bi bi-calendar-date"></i> Date: January 15, 2025</p>
-                <p class="mb-2 text-muted"><i class="bi bi-clock"></i> Time: 1:00 PM - 5:00 PM</p>
-                <p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: Municipal Gymnasium</p>
-                <p class="mb-3">Learn how to prepare and respond to disasters effectively.</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">RSVP Now</a>
-            </div>
-        </div>
+    <div class="list-group">
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="list-group-item list-group-item-action mb-3 shadow-sm">';
+                echo '<h5 class="mb-2 text-dark">' . htmlspecialchars($row['title']) . '</h5>';
+                echo '<p class="mb-2 text-muted"><i class="bi bi-calendar-date"></i> Date: ' . htmlspecialchars($row['date']) . '</p>';
+                echo '<p class="mb-2 text-muted"><i class="bi bi-clock"></i> Time: ' . htmlspecialchars($row['time']) . '</p>';
+                echo '<p class="mb-2 text-muted"><i class="bi bi-geo-alt"></i> Location: ' . htmlspecialchars($row['location']) . '</p>';
+                echo '<p class="mb-3">' . htmlspecialchars($row['description']) . '</p>';
+                echo '<a href="#" class="btn btn-outline-primary btn-sm">RSVP Now</a>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p class="text-center text-muted">No events available at the moment.</p>';
+        }
+        ?>
+    </div>
+</div>
 
         <!-- Suggest Event Form -->
         <div class="mt-5">
-            <h5 class="text-center text-success mb-4">Suggest an Event</h5>
-            <form>
-                <div class="mb-3">
-                    <label for="eventTitle" class="form-label">Event Title</label>
-                    <input type="text" class="form-control" id="eventTitle" placeholder="Enter event title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="eventDate" class="form-label">Event Date</label>
-                    <input type="date" class="form-control" id="eventDate" required>
-                </div>
-                <div class="mb-3">
-                    <label for="eventTime" class="form-label">Event Time</label>
-                    <input type="time" class="form-control" id="eventTime" required>
-                </div>
-                <div class="mb-3">
-                    <label for="eventLocation" class="form-label">Event Location</label>
-                    <input type="text" class="form-control" id="eventLocation" placeholder="Enter event location" required>
-                </div>
-                <div class="mb-3">
-                    <label for="eventDescription" class="form-label">Event Description</label>
-                    <textarea class="form-control" id="eventDescription" rows="3" placeholder="Enter event description" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-outline-success">Submit Event</button>
-            </form>
+    <h5 class="text-center text-success mb-4">Suggest an Event</h5>
+    <form action="suggest-event.php" method="POST">
+        <div class="mb-3">
+            <label for="eventTitle" class="form-label">Event Title</label>
+            <input type="text" class="form-control" name="eventTitle" id="eventTitle" placeholder="Enter event title" required>
         </div>
+        <div class="mb-3">
+            <label for="eventDate" class="form-label">Event Date</label>
+            <input type="date" class="form-control" name="eventDate" id="eventDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="eventTime" class="form-label">Event Time</label>
+            <input type="time" class="form-control" name="eventTime" id="eventTime" required>
+        </div>
+        <div class="mb-3">
+            <label for="eventLocation" class="form-label">Event Location</label>
+            <input type="text" class="form-control" name="eventLocation" id="eventLocation" placeholder="Enter event location" required>
+        </div>
+        <div class="mb-3">
+            <label for="eventDescription" class="form-label">Event Description</label>
+            <textarea class="form-control" name="eventDescription" id="eventDescription" rows="3" placeholder="Enter event description" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-success">Submit Event</button>
+    </form>
+
+    <!-- Display success or error messages -->
+    <?php if (isset($success_message)): ?>
+        <p class="text-success mt-3 text-center"><?= htmlspecialchars($success_message); ?></p>
+    <?php elseif (isset($error_message)): ?>
+        <p class="text-danger mt-3 text-center"><?= htmlspecialchars($error_message); ?></p>
+    <?php endif; ?>
+</div>
 
         <!-- Additional Info -->
         <div class="mt-4 text-center">
