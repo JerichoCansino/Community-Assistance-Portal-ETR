@@ -58,7 +58,7 @@ $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_pict
             </ul>
             <!-- Logout Button at the Bottom -->
             <div class="mt-auto">
-                <a href="logout.php" class="btn btn-light w-100 text-success fw-bold">
+                <a href="../../logout.php" class="btn btn-light w-100 text-success fw-bold">
                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                 </a>
             </div>
@@ -69,16 +69,16 @@ $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_pict
             <!-- Navigation Bar -->
             <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
                 <div class="container">
-                    <a class="navbar-brand text-dark fw-bold" href="#">Sta. Barbara Community Assistance Portal</a>
+                    <a class="navbar-brand text-dark fw-bold" href="../../index.php">Sta. Barbara Community Assistance Portal</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
-                            <!-- Display Admin Name without dropdown -->
+                            <!-- Display Admin Name with Profile Picture and Link to Profile -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="#">
+                                <a class="nav-link text-dark" href="admin_profile.php">
                                     <img src="../../uploads/<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Pic" class="rounded-circle" width="30" height="30" style="margin-right: 8px;">
                                     <!-- Display Admin Name -->
                                     <span><?php echo htmlspecialchars($admin_name); ?></span>

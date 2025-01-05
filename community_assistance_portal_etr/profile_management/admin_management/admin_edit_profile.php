@@ -5,13 +5,14 @@ include '../../database/db_connection.php';
 // Start the session
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+// Determine the user to edit (either the admin's own profile or another user)
+$user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : $_SESSION['user_id'];
 
 // Fetch the current user details from the database
 $query = "SELECT * FROM users WHERE id = ?";
@@ -85,12 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($stmt->execute()) {
                 $success_message = "Profile updated successfully!";
-                // Redirect to the user profile after successful update
-                header("Location: user_profile.php"); // Change 'profile.php' to your actual profile page URL
+                // Redirect to the admin profile page after successful update
+                header("Location: admin_profile.php"); // Redirect to admin profile page
                 exit(); // Don't forget to call exit to stop further code execution
-            } else {
-                $error_message = "Error updating profile!";
             }
+
 
             $stmt->close();
         }
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="../../index.php">
                 <img src="../../assets/sblogo.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 Sta. Barbara Community Assistance Portal
             </a>
