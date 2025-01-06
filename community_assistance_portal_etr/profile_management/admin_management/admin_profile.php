@@ -48,11 +48,11 @@ $stmt->close();
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <!-- Logo and Portal Name -->
-            <a class="navbar-brand" href="../../index.php">
+            <!-- Logo and Portal Name (No Link) -->
+            <span class="navbar-brand">
                 <img src="../../assets/sblogo.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 Sta. Barbara Community Assistance Portal
-            </a>
+            </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -124,8 +124,6 @@ $stmt->close();
                 </a>
             </div>
         </div>
-
-
     </div>
 
     <!-- Bootstrap JS -->

@@ -114,10 +114,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="../../index.php">
+            <span class="navbar-brand">
                 <img src="../../assets/sblogo.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 Sta. Barbara Community Assistance Portal
-            </a>
+            </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
