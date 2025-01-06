@@ -1,10 +1,23 @@
 <?php
-// help_request_offers.php
 session_start();
+include('database/db_connection.php'); // Include your DB connection here
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['message'] = "You must be logged in to view this page.";
+    header('Location: profile_management/login.php'); // Redirect to login page if not logged in
+    exit();
+}
+
+$userid = $_SESSION['user_id']; // Get the user ID from the session
+
+// Fetch the user's requests and offers
+$sql = "SELECT * FROM offers WHERE userid = '$userid' ORDER BY created_at DESC";
+$result = mysqli_query($conn, $sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +27,6 @@ session_start();
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
@@ -38,11 +50,11 @@ session_start();
 
     <!-- Main Content -->
     <div class="container my-5">
-        <h1 class="text-success text-center mb-4">Help Requests and Offers</h1>
-        <p class="text-center">Collaborate with your community by requesting help or offering assistance.</p>
+        <h1 class="text-success text-center mb-4">Your Help Requests and Offers</h1>
+        <p class="text-center">Manage your requests and offers in the community.</p>
 
         <div class="row">
-            <!-- Request Help -->
+            <!-- Request Help Form -->
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
@@ -68,7 +80,7 @@ session_start();
                 </div>
             </div>
 
-            <!-- Offer Help -->
+            <!-- Offer Help Form -->
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-success text-white">
@@ -95,9 +107,27 @@ session_start();
             </div>
         </div>
 
-        <!-- Back to Home -->
-        <div class="mt-4 text-center">
-            <a href="index.php" class="btn btn-outline-secondary">Back to Home</a>
+        <!-- Display Requests and Offers -->
+        <div class="row mt-4">
+            <?php if (mysqli_num_rows($result) > 0): ?>
+                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <div class="col-md-6">
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header <?= ($row['type'] == 'request') ? 'bg-danger' : 'bg-success' ?> text-white">
+                                <h4 class="mb-0"><?= ucfirst($row['type']) ?></h4>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Name:</strong> <?= htmlspecialchars($row['name']) ?></p>
+                                <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact']) ?></p>
+                                <p><strong>Details:</strong> <?= nl2br(htmlspecialchars($row['details'])) ?></p>
+                                <p><small class="text-muted">Posted on: <?= $row['created_at'] ?></small></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p class="text-center text-muted">No requests or offers available at the moment.</p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -109,5 +139,6 @@ session_start();
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
+
+<?php mysqli_close($conn); ?>
