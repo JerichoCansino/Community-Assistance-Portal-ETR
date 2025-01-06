@@ -69,7 +69,7 @@ $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_pict
             <!-- Navigation Bar -->
             <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
                 <div class="container">
-                    <a class="navbar-brand text-dark fw-bold" href="../../index.php">Sta. Barbara Community Assistance Portal</a>
+                    <a class="navbar-brand text-dark fw-bold">Sta. Barbara Community Assistance Portal</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
