@@ -1,10 +1,16 @@
 <?php
-// Start the session
+include '../../database/db_connection.php';
 session_start();
 
-// Assuming admin name and profile picture are already set in session (this part can be modified later when you have the backend data)
 $admin_name = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : "Admin";
 $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'default.jpg';
+$user_count = $conn->query("SELECT COUNT(*) as total FROM users")->fetch_assoc()['total'];
+$resources_count = $conn->query("SELECT COUNT(*) as total FROM resources")->fetch_assoc()['total'];
+$offers_count = $conn->query("SELECT COUNT(*) as total FROM offers")->fetch_assoc()['total'];
+$events_count = $conn->query("SELECT COUNT(*) as total FROM events")->fetch_assoc()['total'];
+
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +54,11 @@ $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_pict
                 <li class="nav-item mb-3 border-bottom border-light">
                     <a class="nav-link text-white small" href="help_requests_offers.php">
                         <i class="bi bi-hand-thumbs-up me-2"></i>Help Requests and Offers
+                    </a>
+                </li>
+                <li class="nav-item mb-3 border-bottom border-light">
+                    <a class="nav-link text-white small" href="manage_services.php">
+                        <i class="bi bi-tools me-2"></i>Services
                     </a>
                 </li>
                 <li class="nav-item mb-3 border-bottom border-light">
@@ -96,43 +107,44 @@ $profile_picture = isset($_SESSION['profile_picture']) ? $_SESSION['profile_pict
 
                     <!-- Dashboard Stats -->
                     <div class="row mt-4">
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-success h-100">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-person-fill fs-2 text-success mb-3"></i>
-                                    <h5 class="card-title text-success">Users</h5>
-                                    <p class="card-text">0</p> <!-- Placeholder count -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-success h-100">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-briefcase-fill fs-2 text-success mb-3"></i>
-                                    <h5 class="card-title text-success">Services Offered</h5>
-                                    <p class="card-text">0</p> <!-- Placeholder count -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-success h-100">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-exclamation-triangle-fill fs-2 text-success mb-3"></i>
-                                    <h5 class="card-title text-success">Help Requests Pending</h5>
-                                    <p class="card-text">0</p> <!-- Placeholder count -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="card border-success h-100">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-calendar-check-fill fs-2 text-success mb-3"></i>
-                                    <h5 class="card-title text-success">Community Event Suggestions</h5>
-                                    <p class="card-text">0</p> <!-- Placeholder count -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-success h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-person-fill fs-2 text-success mb-3"></i>
+                <h5 class="card-title text-success">Users</h5>
+                <p class="card-text"><?php echo $user_count; ?></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-success h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-briefcase-fill fs-2 text-success mb-3"></i>
+                <h5 class="card-title text-success">Services Offered</h5>
+                <p class="card-text"><?php echo $resources_count; ?></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-success h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-exclamation-triangle-fill fs-2 text-success mb-3"></i>
+                <h5 class="card-title text-success">Help Requests Pending</h5>
+                <p class="card-text"><?php echo $offers_count; ?></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-success h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-check-fill fs-2 text-success mb-3"></i>
+                <h5 class="card-title text-success">Community Event Suggestions</h5>
+                <p class="card-text"><?php echo $events_count; ?></p>
+            </div>
+        </div>
+    </div>
+</div>
+
                 </div>
             </main>
         </div>

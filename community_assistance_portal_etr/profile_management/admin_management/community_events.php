@@ -1,3 +1,46 @@
+<?php
+include '../../database/db_connection.php';
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+    header("Location: ../login.php");
+    exit();
+}
+
+// SQL query to fetch events
+$sql = "SELECT `id`, `title`, `date`, `time`, `location`, `description`, `status`, `user_id` FROM `events`";
+$result = $conn->query($sql);
+
+$events = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['event_id']) && isset($_POST['status'])) {
+        $event_id = $_POST['event_id'];
+        $status = $_POST['status'];
+
+        include '../../database/db_connection.php';
+
+        $sql = "UPDATE `events` SET `status` = ? WHERE `id` = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('si', $status, $event_id);
+
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Status updated successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to update status']);
+        }
+        $stmt->close();
+        $conn->close();
+    }
+}
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +75,11 @@
             </a>
         </div>
     </nav>
+    <div class="mb-4" style="margin-left: 120px;">
+        <a href="admin_dashboard.php" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+    </div>
 
     <!-- Main Content -->
     <main class="py-5">
@@ -47,29 +95,31 @@
                             <th>Event Title</th>
                             <th>Date</th>
                             <th>Submitted By</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Sample Row -->
+                        <?php foreach ($events as $index => $event): ?>
                         <tr>
-                            <td>1</td>
-                            <td>Community Cleanup</td>
-                            <td>2025-01-10</td>
-                            <td>John Doe</td>
+                            <td><?= $index + 1 ?></td>
+                            <td><?= $event['title'] ?></td>
+                            <td><?= $event['date'] ?></td>
+                            <td><?= $event['submitted_by'] ?? 'N/A' ?></td>
+                            <td id="status-<?= $event['id'] ?>"><?= $event['status'] ?></td>
                             <td>
-                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailsModal" data-event='{"title": "Community Cleanup", "date": "2025-01-10", "time": "10:00 AM", "location": "Main Park", "description": "A day to clean and beautify the neighborhood."}'>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventDetailsModal" data-event='<?= json_encode($event) ?>'>
                                     <i class="bi bi-eye"></i> View
                                 </button>
-                                <button class="btn btn-success btn-sm">
+                                <button class="btn btn-success btn-sm btn-approve" data-event-id="<?= $event['id'] ?>">
                                     <i class="bi bi-check-circle"></i> Approve
                                 </button>
-                                <button class="btn btn-danger btn-sm">
+                                <button class="btn btn-danger btn-sm btn-reject" data-event-id="<?= $event['id'] ?>">
                                     <i class="bi bi-x-circle"></i> Reject
                                 </button>
                             </td>
                         </tr>
-                        <!-- Additional rows go here -->
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -128,7 +178,6 @@
     <!-- Script to Populate Modal with Event Details -->
     <script>
         const eventDetailsModal = document.getElementById('eventDetailsModal');
-
         eventDetailsModal.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget;
             const eventData = JSON.parse(button.getAttribute('data-event'));
@@ -139,7 +188,53 @@
             document.getElementById('eventLocation').value = eventData.location;
             document.getElementById('eventDescription').value = eventData.description;
         });
+
+        // Event handler for approve/reject buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const approveButtons = document.querySelectorAll('.btn-approve');
+            const rejectButtons = document.querySelectorAll('.btn-reject');
+
+            // Approve button click handler
+            approveButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const eventId = button.dataset.eventId;
+                    updateEventStatus(eventId, 'approved');
+                    window.location.reload();
+                });
+            });
+
+            // Reject button click handler
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const eventId = button.dataset.eventId;
+                    updateEventStatus(eventId, 'rejected');
+                    window.location.reload();
+                });
+            });
+
+            // Function to update event status
+            function updateEventStatus(eventId, status) {
+                fetch('', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `event_id=${eventId}&status=${status}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        document.querySelector(`#status-${eventId}`).innerText = status;
+                        
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error updating event status:', error));
+            }
+        });
     </script>
 </body>
 
 </html>
+
+

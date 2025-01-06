@@ -1,17 +1,16 @@
 <?php
 session_start();
-include('database/db_connection.php'); // Include your DB connection here
+include('database/db_connection.php'); 
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['message'] = "You must be logged in to view this page.";
-    header('Location: profile_management/login.php'); // Redirect to login page if not logged in
+    header('Location: profile_management/login.php'); 
     exit();
 }
 
-$userid = $_SESSION['user_id']; // Get the user ID from the session
+$userid = $_SESSION['user_id']; 
 
-// Fetch the user's requests and offers
 $sql = "SELECT * FROM offers WHERE userid = '$userid' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $sql);
 ?>
@@ -117,7 +116,7 @@ $result = mysqli_query($conn, $sql);
                                 <h4 class="mb-0"><?= ucfirst($row['type']) ?></h4>
                             </div>
                             <div class="card-body">
-                                <p><strong>Name:</strong> <?= htmlspecialchars($row['name']) ?></p>
+                                <p><strong>Name:</strong> <?= htmlspecialchars(string: $row['name']) ?></p>
                                 <p><strong>Contact:</strong> <?= htmlspecialchars($row['contact']) ?></p>
                                 <p><strong>Details:</strong> <?= nl2br(htmlspecialchars($row['details'])) ?></p>
                                 <p><small class="text-muted">Posted on: <?= $row['created_at'] ?></small></p>
